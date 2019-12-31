@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package sdProto;
+
+option java_multiple_files = true;
+option java_package = "com.example.sdJav";
+option java_outer_classname = "SDProto";
+
+//--------------------------------------------------------
+
+message Seeder {
+    string streamName = 1;
+    EndPoint endPoint = 2;
+    int32 videoSize = 3;
+    int32 bitrate = 4;
+    KeyWords keyWords = 5;
+}
+
+message EndPoint {
+    string transport = 1;
+    string ip = 2;
+    int32 port = 3;
+}
+
+message GetSeederResponse {
+    string message = 1;
+}
+
+message KeyWords {
+    repeated string keyword = 1;
+}
+
+service RegisterSeeder {
+    rpc register (Seeder) returns (GetSeederResponse);
+}
+
+//--------------------------------------------------------
+
+message Block {
+    repeated int32 block_id = 1;
+}
+
+message ClientResponse {
+    string ClientResponse = 1;
+}
+
+service RequestBlock {
+    rpc request (Block) returns (ClientResponse);
+}
+
+service SendBlock {
+    rpc send (Block) returns (ClientResponse);
+}
