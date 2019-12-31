@@ -8,6 +8,20 @@ option java_outer_classname = "SDProto";
 
 //--------------------------------------------------------
 
+service Greeter {
+    rpc SayHello (HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloResponse {
+    string message = 1;
+}
+
+//--------------------------------------------------------
+
 message Seeder {
     string streamName = 1;
     EndPoint endPoint = 2;

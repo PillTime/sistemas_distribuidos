@@ -15,6 +15,16 @@ public final class SDProto {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_sdProto_HelloRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_sdProto_HelloRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_sdProto_HelloResponse_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_sdProto_HelloResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_sdProto_Seeder_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -53,59 +63,74 @@ public final class SDProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013sdPro.proto\022\007sdProto\"\212\001\n\006Seeder\022\022\n\nstr" +
-      "eamName\030\001 \001(\t\022#\n\010endPoint\030\002 \001(\0132\021.sdProt" +
-      "o.EndPoint\022\021\n\tvideoSize\030\003 \001(\005\022\017\n\007bitrate" +
-      "\030\004 \001(\005\022#\n\010keyWords\030\005 \001(\0132\021.sdProto.KeyWo" +
-      "rds\"7\n\010EndPoint\022\021\n\ttransport\030\001 \001(\t\022\n\n\002ip" +
-      "\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"$\n\021GetSeederRespons" +
-      "e\022\017\n\007message\030\001 \001(\t\"\033\n\010KeyWords\022\017\n\007keywor" +
-      "d\030\001 \003(\t\"\031\n\005Block\022\020\n\010block_id\030\001 \003(\005\"(\n\016Cl" +
-      "ientResponse\022\026\n\016ClientResponse\030\001 \001(\t2I\n\016" +
-      "RegisterSeeder\0227\n\010register\022\017.sdProto.See" +
-      "der\032\032.sdProto.GetSeederResponse2B\n\014Reque" +
-      "stBlock\0222\n\007request\022\016.sdProto.Block\032\027.sdP" +
-      "roto.ClientResponse2<\n\tSendBlock\022/\n\004send" +
-      "\022\016.sdProto.Block\032\027.sdProto.ClientRespons" +
-      "eB\036\n\021com.example.sdJavB\007SDProtoP\001b\006proto" +
-      "3"
+      "\n\013sdPro.proto\022\007sdProto\"\034\n\014HelloRequest\022\014" +
+      "\n\004name\030\001 \001(\t\" \n\rHelloResponse\022\017\n\007message" +
+      "\030\001 \001(\t\"\212\001\n\006Seeder\022\022\n\nstreamName\030\001 \001(\t\022#\n" +
+      "\010endPoint\030\002 \001(\0132\021.sdProto.EndPoint\022\021\n\tvi" +
+      "deoSize\030\003 \001(\005\022\017\n\007bitrate\030\004 \001(\005\022#\n\010keyWor" +
+      "ds\030\005 \001(\0132\021.sdProto.KeyWords\"7\n\010EndPoint\022" +
+      "\021\n\ttransport\030\001 \001(\t\022\n\n\002ip\030\002 \001(\t\022\014\n\004port\030\003" +
+      " \001(\005\"$\n\021GetSeederResponse\022\017\n\007message\030\001 \001" +
+      "(\t\"\033\n\010KeyWords\022\017\n\007keyword\030\001 \003(\t\"\031\n\005Block" +
+      "\022\020\n\010block_id\030\001 \003(\005\"(\n\016ClientResponse\022\026\n\016" +
+      "ClientResponse\030\001 \001(\t2F\n\007Greeter\022;\n\010SayHe" +
+      "llo\022\025.sdProto.HelloRequest\032\026.sdProto.Hel" +
+      "loResponse\"\0002I\n\016RegisterSeeder\0227\n\010regist" +
+      "er\022\017.sdProto.Seeder\032\032.sdProto.GetSeederR" +
+      "esponse2B\n\014RequestBlock\0222\n\007request\022\016.sdP" +
+      "roto.Block\032\027.sdProto.ClientResponse2<\n\tS" +
+      "endBlock\022/\n\004send\022\016.sdProto.Block\032\027.sdPro" +
+      "to.ClientResponseB\036\n\021com.example.sdJavB\007" +
+      "SDProtoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_sdProto_Seeder_descriptor =
+    internal_static_sdProto_HelloRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_sdProto_HelloRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_sdProto_HelloRequest_descriptor,
+        new java.lang.String[] { "Name", });
+    internal_static_sdProto_HelloResponse_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_sdProto_HelloResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_sdProto_HelloResponse_descriptor,
+        new java.lang.String[] { "Message", });
+    internal_static_sdProto_Seeder_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_sdProto_Seeder_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_sdProto_Seeder_descriptor,
         new java.lang.String[] { "StreamName", "EndPoint", "VideoSize", "Bitrate", "KeyWords", });
     internal_static_sdProto_EndPoint_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_sdProto_EndPoint_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_sdProto_EndPoint_descriptor,
         new java.lang.String[] { "Transport", "Ip", "Port", });
     internal_static_sdProto_GetSeederResponse_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_sdProto_GetSeederResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_sdProto_GetSeederResponse_descriptor,
         new java.lang.String[] { "Message", });
     internal_static_sdProto_KeyWords_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_sdProto_KeyWords_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_sdProto_KeyWords_descriptor,
         new java.lang.String[] { "Keyword", });
     internal_static_sdProto_Block_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_sdProto_Block_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_sdProto_Block_descriptor,
         new java.lang.String[] { "BlockId", });
     internal_static_sdProto_ClientResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_sdProto_ClientResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_sdProto_ClientResponse_descriptor,

@@ -4,10 +4,10 @@ import java.io.Console;
 import java.io.File;
 
 
-public class Client {
+public class SD_Client {
     public static void main(String[] args) {
         final String prompt = " > ";
-        final String programName = "FixNetCD";
+        final String programName = "SD_grupoA";
         final String programFolder = System.getenv("HOME") + "/.local/share/" + programName;
 
         Console console = System.console();
