@@ -17,7 +17,7 @@ public class SD_Server {
     private class GreeterImpl extends GreeterGrpc.GreeterImplBase {
         private final List<Seeder> seeders_list = null;
         //private final JsonArray seeders = new JsonArray();
-        private String jsonSeederObject = new String();
+        private String jsonSeederObject;
 
         private boolean checkSeeder(Seeder seeder) {
             for (Seeder s : seeders_list) {
@@ -31,11 +31,16 @@ public class SD_Server {
         public void registerSeeder(Seeder request, StreamObserver<GetSeederResponse> responseStreamObserver) {
             GetSeederResponse response;
             if (checkSeeder(request)) {
-                response = GetSeederResponse.newBuilder().setMessage("Seeder ID " + request.getStreamName() + " already exists!").build();
+                response = GetSeederResponse.newBuilder()
+                        .setMessage("Seeder ID " + request.getStreamName() + " already exists!").build();
             }
             else {
-                Seeder.newBuilder().setStreamName(request.getStreamName()).setBitrate(request.getBitrate()).setEndPoint(request.getEndPoint()).build();
-                response = GetSeederResponse.newBuilder().setMessage("Seeder ID " + request.getStreamName() + " registry successful!").build();
+                Seeder.newBuilder()
+                        .setStreamName(request.getStreamName())
+                        .setBitrate(request.getBitrate())
+                        .setEndPoint(request.getEndPoint()).build();
+                response = GetSeederResponse.newBuilder()
+                        .setMessage("Seeder ID " + request.getStreamName() + " registry successful!").build();
 
                 Gson gson = new Gson();
                 this.seeders_list.add(request);
@@ -51,10 +56,12 @@ public class SD_Server {
                 this.seeders_list.remove(request);
                 Gson gson = new Gson();
                 jsonSeederObject = gson.toJson(this.seeders_list);
-                response = GetSeederResponse.newBuilder().setMessage(request.getStreamName()+ "closed").build();
+                response = GetSeederResponse.newBuilder()
+                        .setMessage(request.getStreamName()+ "closed").build();
             }
             else {
-                response = GetSeederResponse.newBuilder().setMessage(request.getStreamName()+ "inexistant").build();
+                response = GetSeederResponse.newBuilder()
+                        .setMessage(request.getStreamName()+ "inexistant").build();
             }
             responseStreamObserver.onNext(response);
             responseStreamObserver.onCompleted();

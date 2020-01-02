@@ -9,7 +9,9 @@ option java_outer_classname = "SDProto";
 //--------------------------------------------------------
 
 service Greeter {
-    rpc SayHello (HelloRequest) returns (HelloResponse) {}
+    rpc SayHello (HelloRequest) returns (HelloResponse) {};
+    rpc registerSeeder(Seeder) returns (GetSeederResponse) {};
+    rpc closureSeeder(Seeder) returns (GetSeederResponse) {}
 }
 
 message HelloRequest {
@@ -42,10 +44,6 @@ message GetSeederResponse {
 
 message KeyWords {
     repeated string keyword = 1;
-}
-
-service RegisterSeeder {
-    rpc register (Seeder) returns (GetSeederResponse);
 }
 
 //--------------------------------------------------------
