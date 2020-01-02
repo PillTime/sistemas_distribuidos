@@ -15,9 +15,13 @@ public class SD_Server {
     private io.grpc.Server server;
 
     private class GreeterImpl extends GreeterGrpc.GreeterImplBase {
-        private final List<Seeder> seeders_list = null;
+        private final List<Seeder> seeders_list;
         //private final JsonArray seeders = new JsonArray();
         private String jsonSeederObject;
+
+        private GreeterImpl() {
+            seeders_list=null;
+        }
 
         private boolean checkSeeder(Seeder seeder) {
             for (Seeder s : seeders_list) {
