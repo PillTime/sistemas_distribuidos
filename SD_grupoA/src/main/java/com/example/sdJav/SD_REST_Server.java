@@ -67,12 +67,7 @@ class DocumentManagerImpl implements DocumentManager {
 	private HashMap<Integer, File> resources = new HashMap<Integer, File>();
 
 	@Inject
-	public DocumentManagerImpl() {
-		for (int i = 1; i <= 3; i++) {
-			File file = new File(UUID.randomUUID().toString() + ".txt");
-			this.writeToFile(file, "UUID: " + UUID.randomUUID().toString());
-		}
-	}
+	public DocumentManagerImpl() { }
 
 	public synchronized HashMap<Integer, File> getResources() {
 		return this.resources;

@@ -1,7 +1,11 @@
 package com.example.sdJav;
 
+import com.google.protobuf.Empty;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import java.io.Console;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 
 public class SD_Client {
@@ -10,12 +14,13 @@ public class SD_Client {
         final String programName = "SD_grupoA";
         final String programFolder = System.getenv("HOME") + "/.local/share/" + programName;
 
+        Client client = new Client();
         Console console = System.console();
         File folder = new File(programFolder);
 
         // Criar a pasta se não existir
         try {
-            if (!folder.mkdirs()) {
+            if (!folder.exists() && !folder.mkdirs()) {
                 throw new Exception();
             }
         }
@@ -29,28 +34,46 @@ public class SD_Client {
 
         while (true) {
             try {
-                parseInput(console.readLine(prompt));
+                parseInput(client, console.readLine(prompt));
             }
             catch (Exception e) {
                 e.printStackTrace();
                 return;
             }
         }
+
+
     }
 
-    private static void parseInput(String input) {
+    private static void parseInput(Client client, String input) {
         if (input == null) {
             System.out.println("exit");
-            System.exit(0);
+            try {
+                client.shutdown();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            finally {
+                System.exit(0);
+            }
         }
 
-        // Usar espaços (e TABs) como separadores se palavras
+        // Usar espaços (e TABs) como separadores de palavras
         String[] words = input.split("\\s+");
 
         // Muitos `if`s, mais bonito em Rust
         if (words.length > 0) {
             if (words[0].matches("exit")) {
-                System.exit(0);
+                try {
+                    client.shutdown();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    System.exit(0);
+                }
             }
             else if (words[0].matches("help")) {
                 doHelp();
@@ -59,7 +82,7 @@ public class SD_Client {
                 if (words.length > 1) {
                     if (words[1].matches("list")) {
                         if (words.length == 2) {
-                            doSeederList();
+                            doSeederList(client);
                         }
                         else {
                             System.out.println("`seeder list` não usa argumentos.");
@@ -145,7 +168,8 @@ public class SD_Client {
         System.out.println("================================================================");
     }
 
-    private static void doSeederList() {
+    private static void doSeederList(Client client) {
+        client.getSeeders();
     }
 
     private static void doSeederSearch() {
@@ -179,5 +203,26 @@ public class SD_Client {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+}
+
+class Client {
+    private final ManagedChannel channel;
+    private final GreeterGrpc.GreeterBlockingStub blockingStub;
+    private final GreeterGrpc.GreeterStub stub;
+
+    public Client() {
+        this.channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext().build();
+        this.blockingStub = GreeterGrpc.newBlockingStub(this.channel);
+        this.stub = GreeterGrpc.newStub(this.channel);
+    }
+
+    public void shutdown() throws InterruptedException {
+        this.channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    }
+
+    public void getSeeders() {
+        ListSeedersResponse message = this.blockingStub.listSeeders(Empty.newBuilder().build());
+        System.out.println(message.getSeeders());
     }
 }

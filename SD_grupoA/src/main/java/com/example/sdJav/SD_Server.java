@@ -1,9 +1,6 @@
 package com.example.sdJav;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 import java.util.Collection;
@@ -15,7 +12,7 @@ public class SD_Server {
     private io.grpc.Server server;
 
     private class GreeterImpl extends GreeterGrpc.GreeterImplBase {
-        private final List<Seeder> seeders_list;
+        private List<Seeder> seeders_list;
         //private final JsonArray seeders = new JsonArray();
         private String jsonSeederObject;
 
@@ -67,6 +64,25 @@ public class SD_Server {
                 response = GetSeederResponse.newBuilder()
                         .setMessage(request.getStreamName()+ "inexistant").build();
             }
+            responseStreamObserver.onNext(response);
+            responseStreamObserver.onCompleted();
+        }
+
+        public void ListSeeders(StreamObserver<ListSeedersResponse> responseStreamObserver) {
+            ListSeedersResponse response;
+            Gson gson = new Gson();
+
+            String message = gson.toJson(this.seeders_list);
+
+/*            ListSeedersResponse.Builder tmp = ListSeedersResponse.newBuilder();
+            int count = 0;
+            for (Seeder seeder : this.seeders_list) {
+                tmp.addSeeders(count, seeder);
+                count += 1;
+            }
+            response = tmp.build();*/
+
+            response = ListSeedersResponse.newBuilder().setSeeders(message).build();
             responseStreamObserver.onNext(response);
             responseStreamObserver.onCompleted();
         }

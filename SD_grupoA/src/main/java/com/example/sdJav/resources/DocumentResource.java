@@ -53,9 +53,15 @@ public class DocumentResource {
     public Response deleteResourceById(@PathParam("id") int id) throws IOException {
         if (this.manager.getResources().remove(id) == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("File for ID " + id + " not found!").build();
-        }
-        else {
+        } else {
             return Response.ok().build();
         }
+    }
+
+    @GET
+    @Path("seeders")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void getSeeders() {
+        System.out.println("Client asked for seeders.");
     }
 }
