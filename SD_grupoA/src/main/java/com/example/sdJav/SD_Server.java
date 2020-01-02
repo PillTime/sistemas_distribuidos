@@ -22,8 +22,6 @@ public class SD_Server {
             seeders_list=null;
         }
 
-
-
         private boolean checkSeeder(Seeder seeder) {
             for (Seeder s : seeders_list) {
                 if (s.getStreamName().equals(seeder.getStreamName())) {
