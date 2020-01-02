@@ -73,15 +73,16 @@ public final class SDProto {
       " \001(\005\"$\n\021GetSeederResponse\022\017\n\007message\030\001 \001" +
       "(\t\"\033\n\010KeyWords\022\017\n\007keyword\030\001 \003(\t\"\031\n\005Block" +
       "\022\020\n\010block_id\030\001 \003(\005\"(\n\016ClientResponse\022\026\n\016" +
-      "ClientResponse\030\001 \001(\t2F\n\007Greeter\022;\n\010SayHe" +
-      "llo\022\025.sdProto.HelloRequest\032\026.sdProto.Hel" +
-      "loResponse\"\0002I\n\016RegisterSeeder\0227\n\010regist" +
-      "er\022\017.sdProto.Seeder\032\032.sdProto.GetSeederR" +
-      "esponse2B\n\014RequestBlock\0222\n\007request\022\016.sdP" +
-      "roto.Block\032\027.sdProto.ClientResponse2<\n\tS" +
-      "endBlock\022/\n\004send\022\016.sdProto.Block\032\027.sdPro" +
-      "to.ClientResponseB\036\n\021com.example.sdJavB\007" +
-      "SDProtoP\001b\006proto3"
+      "ClientResponse\030\001 \001(\t2\307\001\n\007Greeter\022;\n\010SayH" +
+      "ello\022\025.sdProto.HelloRequest\032\026.sdProto.He" +
+      "lloResponse\"\000\022?\n\016registerSeeder\022\017.sdProt" +
+      "o.Seeder\032\032.sdProto.GetSeederResponse\"\000\022>" +
+      "\n\rclosureSeeder\022\017.sdProto.Seeder\032\032.sdPro" +
+      "to.GetSeederResponse\"\0002B\n\014RequestBlock\0222" +
+      "\n\007request\022\016.sdProto.Block\032\027.sdProto.Clie" +
+      "ntResponse2<\n\tSendBlock\022/\n\004send\022\016.sdProt" +
+      "o.Block\032\027.sdProto.ClientResponseB\036\n\021com." +
+      "example.sdJavB\007SDProtoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
