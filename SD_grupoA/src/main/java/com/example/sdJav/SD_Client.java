@@ -14,7 +14,7 @@ public class SD_Client {
         final String programName = "SD_grupoA";
         final String programFolder = System.getenv("HOME") + "/.local/share/" + programName;
 
-        Client client = new Client();
+        Client client = new Client("localhost", 8080);
         Console console = System.console();
         File folder = new File(programFolder);
 
@@ -27,13 +27,22 @@ public class SD_Client {
         catch (Exception e) {
             System.out.println("O programa crashou a criar as pastas para guardar informação. RIP");
             e.printStackTrace();
-            System.exit(1);
+            try {
+                client.shutdown();
+            }
+            catch (Exception ee) {
+                ee.printStackTrace();
+            }
+            finally {
+                System.exit(0);
+            }
         }
         // Defini-la como a pasta atual do programa
         System.setProperty("user.dir", programFolder);
 
         while (true) {
             try {
+                // dá nullpointer e nao sei pq
                 parseInput(client, console.readLine(prompt));
             }
             catch (Exception e) {
@@ -41,8 +50,6 @@ public class SD_Client {
                 return;
             }
         }
-
-
     }
 
     private static void parseInput(Client client, String input) {
@@ -206,15 +213,16 @@ public class SD_Client {
     }
 }
 
+
 class Client {
     private final ManagedChannel channel;
     private final GreeterGrpc.GreeterBlockingStub blockingStub;
-    private final GreeterGrpc.GreeterStub stub;
+//    private final GreeterGrpc.GreeterStub stub;
 
-    public Client() {
-        this.channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext().build();
+    public Client(String host, int port) {
+        this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.blockingStub = GreeterGrpc.newBlockingStub(this.channel);
-        this.stub = GreeterGrpc.newStub(this.channel);
+//        this.stub = GreeterGrpc.newStub(this.channel);
     }
 
     public void shutdown() throws InterruptedException {
