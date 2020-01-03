@@ -17,14 +17,10 @@ public class SD_Server {
     Gson gson = new Gson();
 
     private class GreeterImpl extends GreeterGrpc.GreeterImplBase {
-        private Collection<Seeder> seeders_list;
         private List<Seeder> seederList = new ArrayList<>();
-        private Seeder[] seederArray = new Seeder[20];
-        private String seeder_list_string;
         private String jsonSeederObject;
 
         private GreeterImpl() {
-            seeders_list=null;
         }
 
         private boolean checkSeeder(Seeder seeder) {
@@ -61,8 +57,8 @@ public class SD_Server {
         public void closureSeeder(Seeder request, StreamObserver<GetSeederResponse> responseStreamObserver) {
             GetSeederResponse response;
             if(checkSeeder(request)){
-                this.seeders_list.remove(request);
-                jsonSeederObject = gson.toJson(this.seeders_list);
+                this.seederList.remove(request);
+                jsonSeederObject = gson.toJson(this.seederList);
                 response = GetSeederResponse.newBuilder()
                         .setMessage(request.getStreamName()+ "closed").build();
             }
@@ -95,7 +91,6 @@ public class SD_Server {
     }
 
     private void start() throws Exception {
-        Collection<Seeder> seeders;
         this.server = ServerBuilder.forPort(this.port).addService(new GreeterImpl()).build().start();
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
