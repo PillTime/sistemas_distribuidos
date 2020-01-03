@@ -22,7 +22,7 @@ public class SD_Seeder {
     private static final Logger logger = Logger.getLogger(SD_Seeder.class.getName());
 
     private final ManagedChannel channel;
-   private final GreeterGrpc.GreeterBlockingStub blockingStub;
+    private final GreeterGrpc.GreeterBlockingStub blockingStub;
 
     private Seeder active_seeder;
     public static List<File> listOfFiles = new ArrayList<>();

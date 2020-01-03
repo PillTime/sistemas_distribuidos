@@ -16,12 +16,12 @@ service Greeter {
     rpc registerSeeder(Seeder) returns (GetSeederResponse) {};
     rpc closureSeeder(Seeder) returns (GetSeederResponse) {};
 
-    rpc ListSeeders (google.protobuf.Empty) returns (ListSeedersResponse) {
+    rpc listSeeders (google.protobuf.Empty) returns (ListSeedersResponse) {
         option (google.api.http) = { get: "/resources/seeders" };
     };
 }
 message ListSeedersResponse {
-    string seeders = 1;
+    repeated Seeder seeders = 1;
 }
 
 message HelloRequest {
