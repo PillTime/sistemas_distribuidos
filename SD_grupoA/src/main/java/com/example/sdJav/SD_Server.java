@@ -70,24 +70,13 @@ public class SD_Server {
             responseStreamObserver.onCompleted();
         }
 
-        /*public void ListSeeders(StreamObserver<ListSeedersResponse> responseStreamObserver) {
+        public void ListSeeders(StreamObserver<ListSeedersResponse> responseStreamObserver) {
             ListSeedersResponse response;
-            Gson gson = new Gson();
 
-            String message = gson.toJson(this.seeders_list);
-
-/*            ListSeedersResponse.Builder tmp = ListSeedersResponse.newBuilder();
-            int count = 0;
-            for (Seeder seeder : this.seeders_list) {
-                tmp.addSeeders(count, seeder);
-                count += 1;
-            }
-            response = tmp.build();
-
-            response = ListSeedersResponse.newBuilder().setSeeders(message).build();
+            response = ListSeedersResponse.newBuilder().setSeeders(jsonSeederObject).build();
             responseStreamObserver.onNext(response);
             responseStreamObserver.onCompleted();
-        }*/
+        }
     }
 
     private void start() throws Exception {
