@@ -6,6 +6,7 @@ import io.grpc.ManagedChannelBuilder;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -18,7 +19,7 @@ public class SD_Seeder {
     private final GreeterGrpc.GreeterBlockingStub blockingStub;
 
     private Seeder active_seeder;
-    public static List<File> listOfFiles = null;
+    public static List<File> listOfFiles = new ArrayList<>();
 
     /** Construct client connecting to HelloWorld server at {@code host:port}. */
     public SD_Seeder(String host, int port) {
@@ -66,7 +67,8 @@ public class SD_Seeder {
         }
     }
 
-    public void splitFile(File f) throws IOException {
+    public static void splitFile(File f) throws IOException {
+        //listOfFiles.clear();
         int partCounter = 1;//I like to name parts from 001, 002, 003, ...
         //you can change it to 0 if you want 000, 001, ...
 
@@ -93,8 +95,9 @@ public class SD_Seeder {
 
 
     //the function that will get the file from the server
-    public void getFile(String stream_name){
-
+    public static void getFile(String stream_name) throws IOException {
+        File f = new File("/home/diogo/Documents/videos_sd/"+stream_name+".mp4");
+        splitFile(f);
     }
 
     /**
@@ -120,6 +123,7 @@ public class SD_Seeder {
 
 
         //----------------------
+        getFile(file_name);
 
         ServerSocket ss = new ServerSocket(8080);
 
