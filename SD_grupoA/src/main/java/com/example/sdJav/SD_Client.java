@@ -3,8 +3,8 @@ package com.example.sdJav;
 import com.google.protobuf.Empty;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import java.io.Console;
 import java.io.File;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 
@@ -14,8 +14,7 @@ public class SD_Client {
         final String programName = "SD_grupoA";
         final String programFolder = System.getenv("HOME") + "/.local/share/" + programName;
 
-        Client client = new Client("localhost", 8080);
-        Console console = System.console();
+        Client client = new Client("localhost", 50051);
         File folder = new File(programFolder);
 
         // Criar a pasta se não existir
@@ -40,10 +39,12 @@ public class SD_Client {
         // Defini-la como a pasta atual do programa
         System.setProperty("user.dir", programFolder);
 
+        Scanner stdin = new Scanner(System.in);
         while (true) {
             try {
-                // dá nullpointer e nao sei pq
-                parseInput(client, console.readLine(prompt));
+                System.out.print(prompt);
+                String input = stdin.nextLine();
+                parseInput(client, input);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -53,7 +54,7 @@ public class SD_Client {
     }
 
     private static void parseInput(Client client, String input) {
-        if (input == null) {
+        if (input.isEmpty()) {
             System.out.println("exit");
             try {
                 client.shutdown();
@@ -176,7 +177,12 @@ public class SD_Client {
     }
 
     private static void doSeederList(Client client) {
-        client.getSeeders();
+        try {
+            client.getSeeders();
+        }
+        catch (Exception e) {
+            System.out.println("Não foi possível ligar ao servidor.");
+        }
     }
 
     private static void doSeederSearch() {
