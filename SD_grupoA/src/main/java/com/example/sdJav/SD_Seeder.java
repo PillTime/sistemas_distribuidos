@@ -1,22 +1,30 @@
 package com.example.sdJav;
 
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.StorageOptions;
+import io.grpc.Context;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.google.cloud.storage.Storage;
+
 
 public class SD_Seeder {
     private static final Logger logger = Logger.getLogger(SD_Seeder.class.getName());
 
     private final ManagedChannel channel;
-    private final GreeterGrpc.GreeterBlockingStub blockingStub;
+   private final GreeterGrpc.GreeterBlockingStub blockingStub;
 
     private Seeder active_seeder;
     public static List<File> listOfFiles = new ArrayList<>();
@@ -34,13 +42,31 @@ public class SD_Seeder {
     }
 
 
+    public static String find_ip(){
+        String systemipaddress = "";
+        try
+        {
+            URL url_name = new URL("http://bot.whatismyipaddress.com");
 
+            BufferedReader sc =
+                    new BufferedReader(new InputStreamReader(url_name.openStream()));
+
+            // reads system IPAddress
+            systemipaddress = sc.readLine().trim();
+        }
+        catch (Exception e)
+        {
+            systemipaddress = "Cannot Execute Properly";
+        }
+        System.out.println("Public IP Address: " + systemipaddress +"\n");
+        return systemipaddress;
+    }
 
     public void init_seeder(String stream_name){
         try {
             EndPoint endp = EndPoint.newBuilder()
-                    .setIp("localhost")
-                    .setPort(8080)
+                    .setIp(find_ip())
+                    .setPort(50051)
                     .setTransport("tcp").build();
             Seeder active_seeder = Seeder.newBuilder()
                     .setBitrate(124)
@@ -53,8 +79,6 @@ public class SD_Seeder {
             logger.log(Level.WARNING, "RPC failed", e);
             return;
         }
-
-        //Need to do the initial download from the grpc server
     }
 
     public void close_seeder(){
@@ -96,7 +120,26 @@ public class SD_Seeder {
 
     //the function that will get the file from the server
     public static void getFile(String stream_name) throws IOException {
-        File f = new File("/home/diogo/Documents/videos_sd/"+stream_name+".mp4");
+        // The name of the bucket to access
+        String bucketName = "videos_sd";
+
+        // The name of the remote file to download
+        String srcFilename = stream_name+"mp4";
+
+        // The path to which the file should be downloaded
+        Path destFilePath = Paths.get(System.getProperty("user.dir"));
+        System.out.println(destFilePath);
+
+        // Instantiate a Google Cloud Storage client
+        Storage storage = StorageOptions.getDefaultInstance().getService();
+
+        // Get specific file from specified bucket
+        Blob blob = storage.get(BlobId.of(bucketName, srcFilename));
+
+        // Download file to specified path
+        blob.downloadTo(destFilePath);
+
+        File f = new File(destFilePath+stream_name+".mp4");
         splitFile(f);
     }
 
