@@ -70,29 +70,30 @@ public final class SDProto {
     java.lang.String[] descriptorData = {
       "\n\013sdPro.proto\022\007sdProto\032\034google/api/annot" +
       "ations.proto\032\033google/protobuf/empty.prot" +
-      "o\"&\n\023ListSeedersResponse\022\017\n\007seeders\030\001 \001(" +
-      "\t\"\034\n\014HelloRequest\022\014\n\004name\030\001 \001(\t\" \n\rHello" +
-      "Response\022\017\n\007message\030\001 \001(\t\"\212\001\n\006Seeder\022\022\n\n" +
-      "streamName\030\001 \001(\t\022#\n\010endPoint\030\002 \001(\0132\021.sdP" +
-      "roto.EndPoint\022\021\n\tvideoSize\030\003 \001(\005\022\017\n\007bitr" +
-      "ate\030\004 \001(\005\022#\n\010keyWords\030\005 \001(\0132\021.sdProto.Ke" +
-      "yWords\"7\n\010EndPoint\022\021\n\ttransport\030\001 \001(\t\022\n\n" +
-      "\002ip\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\"$\n\021GetSeederResp" +
-      "onse\022\017\n\007message\030\001 \001(\t\"\033\n\010KeyWords\022\017\n\007key" +
-      "word\030\001 \003(\t\"\031\n\005Block\022\020\n\010block_id\030\001 \003(\005\"(\n" +
-      "\016ClientResponse\022\026\n\016ClientResponse\030\001 \001(\t2" +
-      "\250\002\n\007Greeter\022;\n\010SayHello\022\025.sdProto.HelloR" +
-      "equest\032\026.sdProto.HelloResponse\"\000\022?\n\016regi" +
-      "sterSeeder\022\017.sdProto.Seeder\032\032.sdProto.Ge" +
-      "tSeederResponse\"\000\022>\n\rclosureSeeder\022\017.sdP" +
-      "roto.Seeder\032\032.sdProto.GetSeederResponse\"" +
-      "\000\022_\n\013ListSeeders\022\026.google.protobuf.Empty" +
-      "\032\034.sdProto.ListSeedersResponse\"\032\202\323\344\223\002\024\022\022" +
-      "/resources/seeders2B\n\014RequestBlock\0222\n\007re" +
-      "quest\022\016.sdProto.Block\032\027.sdProto.ClientRe" +
-      "sponse2<\n\tSendBlock\022/\n\004send\022\016.sdProto.Bl" +
-      "ock\032\027.sdProto.ClientResponseB\036\n\021com.exam" +
-      "ple.sdJavB\007SDProtoP\001b\006proto3"
+      "o\"7\n\023ListSeedersResponse\022 \n\007seeders\030\001 \003(" +
+      "\0132\017.sdProto.Seeder\"\034\n\014HelloRequest\022\014\n\004na" +
+      "me\030\001 \001(\t\" \n\rHelloResponse\022\017\n\007message\030\001 \001" +
+      "(\t\"\212\001\n\006Seeder\022\022\n\nstreamName\030\001 \001(\t\022#\n\010end" +
+      "Point\030\002 \001(\0132\021.sdProto.EndPoint\022\021\n\tvideoS" +
+      "ize\030\003 \001(\005\022\017\n\007bitrate\030\004 \001(\005\022#\n\010keyWords\030\005" +
+      " \001(\0132\021.sdProto.KeyWords\"7\n\010EndPoint\022\021\n\tt" +
+      "ransport\030\001 \001(\t\022\n\n\002ip\030\002 \001(\t\022\014\n\004port\030\003 \001(\005" +
+      "\"$\n\021GetSeederResponse\022\017\n\007message\030\001 \001(\t\"\033" +
+      "\n\010KeyWords\022\017\n\007keyword\030\001 \003(\t\"\031\n\005Block\022\020\n\010" +
+      "block_id\030\001 \003(\005\"(\n\016ClientResponse\022\026\n\016Clie" +
+      "ntResponse\030\001 \001(\t2\250\002\n\007Greeter\022;\n\010SayHello" +
+      "\022\025.sdProto.HelloRequest\032\026.sdProto.HelloR" +
+      "esponse\"\000\022?\n\016registerSeeder\022\017.sdProto.Se" +
+      "eder\032\032.sdProto.GetSeederResponse\"\000\022>\n\rcl" +
+      "osureSeeder\022\017.sdProto.Seeder\032\032.sdProto.G" +
+      "etSeederResponse\"\000\022_\n\013listSeeders\022\026.goog" +
+      "le.protobuf.Empty\032\034.sdProto.ListSeedersR" +
+      "esponse\"\032\202\323\344\223\002\024\022\022/resources/seeders2B\n\014R" +
+      "equestBlock\0222\n\007request\022\016.sdProto.Block\032\027" +
+      ".sdProto.ClientResponse2<\n\tSendBlock\022/\n\004" +
+      "send\022\016.sdProto.Block\032\027.sdProto.ClientRes" +
+      "ponseB\036\n\021com.example.sdJavB\007SDProtoP\001b\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

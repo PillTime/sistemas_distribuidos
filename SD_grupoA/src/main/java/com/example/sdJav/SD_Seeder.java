@@ -24,7 +24,7 @@ public class SD_Seeder {
     private static final Logger logger = Logger.getLogger(SD_Seeder.class.getName());
 
     private final ManagedChannel channel;
-   private final GreeterGrpc.GreeterBlockingStub blockingStub;
+    private final GreeterGrpc.GreeterBlockingStub blockingStub;
 
     private Seeder active_seeder;
     public static List<File> listOfFiles = new ArrayList<>();
@@ -124,7 +124,7 @@ public class SD_Seeder {
         String bucketName = "videos_sd";
 
         // The name of the remote file to download
-        String srcFilename = stream_name+"mp4";
+        String srcFilename = stream_name+".mp4";
 
         // The path to which the file should be downloaded
         Path destFilePath = Paths.get(System.getProperty("user.dir"));

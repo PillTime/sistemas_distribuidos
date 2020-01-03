@@ -4,6 +4,7 @@ import com.google.protobuf.Empty;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -40,11 +41,12 @@ public class SD_Client {
         System.setProperty("user.dir", programFolder);
 
         Scanner stdin = new Scanner(System.in);
-        while (true) {
+        System.out.print(prompt);
+        while (stdin.hasNext()) {
             try {
-                System.out.print(prompt);
                 String input = stdin.nextLine();
                 parseInput(client, input);
+                System.out.print(prompt);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -177,11 +179,20 @@ public class SD_Client {
     }
 
     private static void doSeederList(Client client) {
+        List<Seeder> list = null;
         try {
-            client.getSeeders();
+            list = client.getSeeders();
         }
         catch (Exception e) {
             System.out.println("Não foi possível ligar ao servidor.");
+            return;
+        }
+
+        if (list.isEmpty()) {
+            System.out.println("Não existem seeders registados.");
+        }
+        else {
+            System.out.println(list);
         }
     }
 
@@ -223,20 +234,26 @@ public class SD_Client {
 class Client {
     private final ManagedChannel channel;
     private final GreeterGrpc.GreeterBlockingStub blockingStub;
-//    private final GreeterGrpc.GreeterStub stub;
 
     public Client(String host, int port) {
         this.channel = ManagedChannelBuilder.forAddress(host, port).usePlaintext().build();
         this.blockingStub = GreeterGrpc.newBlockingStub(this.channel);
-//        this.stub = GreeterGrpc.newStub(this.channel);
     }
 
     public void shutdown() throws InterruptedException {
         this.channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public void getSeeders() {
-        ListSeedersResponse message = this.blockingStub.listSeeders(Empty.newBuilder().build());
-        System.out.println(message.getSeeders());
+    public List<Seeder> getSeeders() {
+        ListSeedersResponse message = null;
+        try {
+            message = this.blockingStub.listSeeders(Empty.newBuilder().build());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return message.getSeedersList();
     }
 }

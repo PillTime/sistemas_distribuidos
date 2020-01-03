@@ -1,6 +1,7 @@
 package com.example.sdJav;
 
 import com.google.gson.Gson;
+import com.google.protobuf.Empty;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 
@@ -70,12 +71,28 @@ public class SD_Server {
             responseStreamObserver.onCompleted();
         }
 
-        public void ListSeeders(StreamObserver<ListSeedersResponse> responseStreamObserver) {
-            ListSeedersResponse response;
+        public void listSeeders(Empty empty, StreamObserver<ListSeedersResponse> responseStreamObserver) {
+                ListSeedersResponse response = null;
+                ListSeedersResponse.Builder builder = ListSeedersResponse.newBuilder();
 
-            response = ListSeedersResponse.newBuilder().setSeeders(jsonSeederObject).build();
-            responseStreamObserver.onNext(response);
-            responseStreamObserver.onCompleted();
+                for (Seeder seeder : this.seederList) {
+                    builder.addSeeders(seeder);
+                }
+
+                try {
+                    response = builder.build();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("oof1");
+                }
+
+                try {
+                    responseStreamObserver.onNext(response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("oof2");
+                }
+                responseStreamObserver.onCompleted();
         }
     }
 
