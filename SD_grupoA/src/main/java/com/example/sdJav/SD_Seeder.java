@@ -9,6 +9,7 @@ import io.grpc.ManagedChannelBuilder;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -41,13 +42,31 @@ public class SD_Seeder {
     }
 
 
+    public static String find_ip(){
+        String systemipaddress = "";
+        try
+        {
+            URL url_name = new URL("http://bot.whatismyipaddress.com");
 
+            BufferedReader sc =
+                    new BufferedReader(new InputStreamReader(url_name.openStream()));
+
+            // reads system IPAddress
+            systemipaddress = sc.readLine().trim();
+        }
+        catch (Exception e)
+        {
+            systemipaddress = "Cannot Execute Properly";
+        }
+        System.out.println("Public IP Address: " + systemipaddress +"\n");
+        return systemipaddress;
+    }
 
     public void init_seeder(String stream_name){
         try {
             EndPoint endp = EndPoint.newBuilder()
-                    .setIp("localhost")
-                    .setPort(8080)
+                    .setIp(find_ip())
+                    .setPort(50051)
                     .setTransport("tcp").build();
             Seeder active_seeder = Seeder.newBuilder()
                     .setBitrate(124)
@@ -60,8 +79,6 @@ public class SD_Seeder {
             logger.log(Level.WARNING, "RPC failed", e);
             return;
         }
-
-        //Need to do the initial download from the grpc server
     }
 
     public void close_seeder(){
@@ -111,6 +128,7 @@ public class SD_Seeder {
 
         // The path to which the file should be downloaded
         Path destFilePath = Paths.get(System.getProperty("user.dir"));
+        System.out.println(destFilePath);
 
         // Instantiate a Google Cloud Storage client
         Storage storage = StorageOptions.getDefaultInstance().getService();
