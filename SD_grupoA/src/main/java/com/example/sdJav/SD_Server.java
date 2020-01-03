@@ -7,15 +7,18 @@ import io.grpc.stub.StreamObserver;
 import java.io.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 
 public class SD_Server {
-    private int port = 8080;
+    private int port = 50051;
     private io.grpc.Server server;
+    Gson gson = new Gson();
 
     private class GreeterImpl extends GreeterGrpc.GreeterImplBase {
         private List<Seeder> seeders_list;
-        //private final JsonArray seeders = new JsonArray();
+        private Seeder[] seederArray = new Seeder[20];
+        private String seeder_list_string;
         private String jsonSeederObject;
 
         private GreeterImpl() {
@@ -23,21 +26,20 @@ public class SD_Server {
         }
 
         private boolean checkSeeder(Seeder seeder) {
-            for (Seeder s : seeders_list) {
-                if (s.getStreamName().equals(seeder.getStreamName())) {
+            for (Seeder s : seederArray)
+                if (Objects.equals(s.getStreamName(), seeder.getStreamName())) {
                     return true;
                 }
-            }
             return false;
         }
 
         public void registerSeeder(Seeder request, StreamObserver<GetSeederResponse> responseStreamObserver) {
             GetSeederResponse response;
-            if (checkSeeder(request)) {
+            /*if (checkSeeder(request)) {
                 response = GetSeederResponse.newBuilder()
                         .setMessage("Seeder ID " + request.getStreamName() + " already exists!").build();
-            }
-            else {
+            }*/
+            //else {
                 Seeder.newBuilder()
                         .setStreamName(request.getStreamName())
                         .setBitrate(request.getBitrate())
@@ -45,19 +47,24 @@ public class SD_Server {
                 response = GetSeederResponse.newBuilder()
                         .setMessage("Seeder ID " + request.getStreamName() + " registry successful!").build();
 
-                Gson gson = new Gson();
-                this.seeders_list.add(request);
-                jsonSeederObject = gson.toJson(this.seeders_list);
-            }
+                for (int i = 0; i < 20; i++) {
+                    if (seederArray[i] == null) {
+                        seederArray[i] = request;
+                        break;
+                    }
+                }
+                jsonSeederObject = gson.toJson(seederArray);
+                System.out.println(jsonSeederObject);
+            //}
             responseStreamObserver.onNext(response);
             responseStreamObserver.onCompleted();
+
         }
 
         public void closureSeeder(Seeder request, StreamObserver<GetSeederResponse> responseStreamObserver) {
             GetSeederResponse response;
             if(checkSeeder(request)){
                 this.seeders_list.remove(request);
-                Gson gson = new Gson();
                 jsonSeederObject = gson.toJson(this.seeders_list);
                 response = GetSeederResponse.newBuilder()
                         .setMessage(request.getStreamName()+ "closed").build();
@@ -70,7 +77,7 @@ public class SD_Server {
             responseStreamObserver.onCompleted();
         }
 
-        public void ListSeeders(StreamObserver<ListSeedersResponse> responseStreamObserver) {
+        /*public void ListSeeders(StreamObserver<ListSeedersResponse> responseStreamObserver) {
             ListSeedersResponse response;
             Gson gson = new Gson();
 
@@ -82,12 +89,12 @@ public class SD_Server {
                 tmp.addSeeders(count, seeder);
                 count += 1;
             }
-            response = tmp.build();*/
+            response = tmp.build();
 
             response = ListSeedersResponse.newBuilder().setSeeders(message).build();
             responseStreamObserver.onNext(response);
             responseStreamObserver.onCompleted();
-        }
+        }*/
     }
 
     private void start() throws Exception {

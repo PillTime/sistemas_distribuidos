@@ -33,19 +33,7 @@ public class SD_Seeder {
     }
 
 
-    /** Say hello to server. */
-    public void greet(String name) {
-        try {
-            logger.info("Will try to greet " + name + " ...");
-            HelloRequest request = HelloRequest.newBuilder()
-                    .setName(name).build();
-            HelloResponse response = blockingStub.sayHello(request);
-            logger.info("Greeting: " + response.getMessage());
-        } catch (RuntimeException e) {
-            logger.log(Level.WARNING, "RPC failed", e);
-            return;
-        }
-    }
+
 
     public void init_seeder(String stream_name){
         try {
@@ -98,10 +86,6 @@ public class SD_Seeder {
 
                 File newFile = new File(f.getParent(), filePartName);
                 listOfFiles.add(newFile);
-
-                try (FileOutputStream out = new FileOutputStream(newFile)) {
-                    out.write(buffer, 0, bytesAmount);
-                }
             }
         }
     }
@@ -118,7 +102,7 @@ public class SD_Seeder {
      * greeting.
      */
     public static void main(String[] args) throws Exception {
-        SD_Seeder client = new SD_Seeder("localhost", 8080);
+        SD_Seeder client = new SD_Seeder("localhost", 50051);
         String file_name;
 
         try {
@@ -127,10 +111,11 @@ public class SD_Seeder {
             if (args.length > 0) {
                 file_name = args[0]; /* Use the arg as the name to greet if provided */
             }
-            client.greet(file_name);
+            //client.greet(file_name);
             client.init_seeder(file_name);
         } finally {
             client.shutdown();
+            System.out.println("Client Shutdown");
         }
 
 
@@ -143,7 +128,6 @@ public class SD_Seeder {
         while (true)
         {
             Socket s = null;
-
             try
             {
                 // socket object to receive incoming client requests
@@ -167,9 +151,20 @@ public class SD_Seeder {
             }
             catch (Exception e){
                 s.close();
+                client = new SD_Seeder("localhost",50051);
+                client.close_seeder();
+                client.shutdown();
+                System.out.println("Client Shutdown");
                 e.printStackTrace();
             }
+            finally {
+                client = new SD_Seeder("localhost",50051);
+                client.close_seeder();
+                client.shutdown();
+                System.out.println("Client Shutdown");
+            }
         }
+
     }
 }
 
