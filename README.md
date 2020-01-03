@@ -1,3 +1,3 @@
 # Sistemas Distribuidos
 
-TODO: preencher isto se necessário
+### O trabalho é a pasta `SD_grupoA`
