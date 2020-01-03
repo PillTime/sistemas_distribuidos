@@ -1,8 +1,7 @@
 package com.example.sdJav;
 
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.StorageOptions;
+import com.google.api.gax.paging.Page;
+import com.google.cloud.storage.*;
 import io.grpc.Context;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.google.cloud.storage.Storage;
 
 
 public class SD_Seeder {
@@ -116,18 +114,28 @@ public class SD_Seeder {
         }
     }
 
+    static void authImplicit() {
+        // If you don't specify credentials when constructing the client, the client library will
+        // look for credentials via the environment variable GOOGLE_APPLICATION_CREDENTIALS.
+        Storage storage = StorageOptions.getDefaultInstance().getService();
 
+        System.out.println("Buckets:");
+        Page<Bucket> buckets = storage.list();
+        for (Bucket bucket : buckets.iterateAll()) {
+            System.out.println(bucket.toString());
+        }
+    }
 
     //the function that will get the file from the server
-    public static void getFile(String stream_name) throws IOException {
+    public static void getFile(String stream_name) {
         // The name of the bucket to access
         String bucketName = "videos_sd";
 
         // The name of the remote file to download
-        String srcFilename = stream_name+"mp4";
+        String srcFilename = stream_name+".mp4";
 
         // The path to which the file should be downloaded
-        Path destFilePath = Paths.get(System.getProperty("user.dir"));
+        Path destFilePath = Paths.get(System.getProperty("user.dir")+"/"+srcFilename);
         System.out.println(destFilePath);
 
         // Instantiate a Google Cloud Storage client
@@ -139,8 +147,12 @@ public class SD_Seeder {
         // Download file to specified path
         blob.downloadTo(destFilePath);
 
-        File f = new File(destFilePath+stream_name+".mp4");
-        splitFile(f);
+        File f = new File(destFilePath.toString());
+        try {
+            splitFile(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
