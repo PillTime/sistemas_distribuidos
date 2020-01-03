@@ -4,6 +4,7 @@ import com.google.protobuf.Empty;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import java.io.File;
+import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -116,7 +117,7 @@ public class SD_Client {
             }
             else if (words[0].matches("download")) {
                 if (words.length > 1) {
-                    doDownload();
+                    doDownload(client, words[1]);
                 }
                 else {
                     System.out.println("`download` precisa de argumentos. Faz `help` para veres um exemplo.");
@@ -199,10 +200,36 @@ public class SD_Client {
     private static void doSeederSearch() {
     }
 
-    private static void doDownload() {
+    private static void doDownload(Client client, String name) {
+        List<Seeder> list = client.getSeeders();
+        for (Seeder seeder : list) {
+            if (seeder.getStreamName().equals(name)) {
+                Socket conn = null;
+                try {
+                    conn = new Socket(seeder.getEndPoint().getIp(), seeder.getEndPoint().getPort());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Não foi possível ligar ao seeder que tem o ficheiro.");
+                    return;
+                }
+
+                try {
+                    System.out.println(conn.getInputStream().read());
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Houve um problema a fazer download do ficheiro.");
+                    return;
+                }
+
+                break;
+            }
+        }
     }
 
     private static void doListFiles() {
+
     }
 
     private static void doInfo() {
